@@ -1,3 +1,35 @@
 # PaddleOCR Lite document scanner
 ![output image]( https://qengineering.eu/github/WillekePassOut.webp )<br>
-_Image source: [Dutch  government](https://www.rijksoverheid.nl/actueel/nieuws/2021/08/02/nieuw-model-nederlandse-identiteitskaart-per-2-augustus-2021)._
+_Image source: [Dutch  government](https://www.rijksoverheid.nl/actueel/nieuws/2021/08/02/nieuw-model-nederlandse-identiteitskaart-per-2-augustus-2021)._<br><br>
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)<br/><br/>
+Paper: [E-book: _Dive Into OCR_ (PDF)](https://paddleocr.bj.bcebos.com/ebook/Dive_into_OCR.pdf)<br/><br/>
+PaddleOCR is a text engine. It can detect text in a scene, determine the orientation, and recognize the characters (Chinese or Latin).<br>
+To do so, it needs a deep learning framework, like PaddlePaddle or Paddle-Lite.<br>
+This application uses Paddle-Lite because, as the name already suggests, it is a lightweight version of PaddlePaddle, it can deploy small quantized models (INT8), and its architecture is well suited for the ARMv8 processors found on a Raspberry Pi.<br>
+Once all the software is installed, it can run on a bare Raspberry Pi without needing cloud services or any (expensive) license.<br><br>
+Special made for a bare Raspberry Pi 4, see [Q-engineering deep learning examples](https://qengineering.eu/deep-learning-examples-on-raspberry-32-64-os.html)
+
+------------
+
+## Dependencies.
+To run the application, you have to:
+- A raspberry Pi 4 with a 32 or 64-bit operating system. It can be the Raspberry 64-bit OS, or Ubuntu 18.04 / 20.04. [Install 64-bit OS](https://qengineering.eu/install-raspberry-64-os.html) <br/>
+- Paddle-Lite installed. [Install Paddle-Lite](https://qengineering.eu/install-paddle-lite-on-raspberry-pi-4.html) <br/>
+- Paddle-Lite optimizer. [Install Paddle-Lite](https://qengineering.eu/install-paddle-lite-on-raspberry-pi-4.html) <br/>
+- Clipper installed.
+- OpenCV 64 bit installed. [Install OpenCV 4.5](https://qengineering.eu/install-opencv-4.5-on-raspberry-64-os.html) <br/>
+- Code::Blocks installed. (```$ sudo apt-get install codeblocks```)
+
+------------
+
+## Installing the app.
+
+------------
+
+## Running the app.
+
+------------
+
+[![paypal](https://qengineering.eu/images/TipJarSmall4.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CPZTM5BB3FCYL) 
+
+
