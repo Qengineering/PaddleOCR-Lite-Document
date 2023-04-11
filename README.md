@@ -62,6 +62,29 @@ $ cd ..
 $ sudo mkdir /usr/local/include/polyclipping
 $ sudo cp -r ./clipper.hpp /usr/local/include/polyclipping
 ```
+#### Paddle-Lite
+With Clipper up and running, it's now time to install the Paddle-Lite framework. See also our [guide](https://qengineering.eu/install-paddle-lite-on-raspberry-pi-4.html).
+```
+# install dependencies
+$ sudo apt-get install cmake wget
+# download Paddle Lite
+$ git clone --depth=1 https://github.com/PaddlePaddle/Paddle-Lite.git
+$ cd Paddle-Lite
+# build 64-bit Paddle Lite (±1 hour)
+$ ./lite/tools/build_linux.sh --arch=armv8 --with_extra=ON --with_cv=ON --with_static_lib=ON --toolchain=gcc
+# copy the headers and library to /usr/local/
+$ sudo mkdir -p /usr/local/include/paddle-lite
+$ sudo cp -r build.lite.linux.armv8.gcc/inference_lite_lib.armlinux.armv8/cxx/include/*.* /usr/local/include/paddle-lite
+$ sudo mkdir -p /usr/local/lib/paddle-lite
+$ sudo cp -r build.lite.linux.armv8.gcc/inference_lite_lib.armlinux.armv8/cxx/lib/*.* /usr/local/lib/paddle-lite
+```
+In addition to the `inference_lite_lib.armlinux.armv8` library, we also need the optimization tool `build.opt`.<br>
+The models used by PaddleOCR must match the version of the Paddle-Lite framework. No doubt Paddle-Lite will evolve, and the models provided here will no longer match the newer version.<br><br>
+Before you can compile the optimizer, please check [pull requist #10164](https://github.com/PaddlePaddle/Paddle-Lite/pull/10164).<br>
+The `Paddle-Lite/lite/tools/build_linux.sh` need to be adapted for the aarch64 OS.<br><br>
+![output image](https://qengineering.eu/github/Paddle_issue_10102.png)<br><br>
+Perhaps, in the near future, the pull request was granted. Until that moment, please alter the according to the suggestions above.<br>
+
 ------------
 
 ## Running the app.
