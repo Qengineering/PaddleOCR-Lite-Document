@@ -62,7 +62,7 @@ $ cd ..
 $ sudo mkdir /usr/local/include/polyclipping
 $ sudo cp -r ./clipper.hpp /usr/local/include/polyclipping
 ```
-#### Paddle-Lite
+#### Paddle-Lite framework
 With Clipper up and running, it's now time to install the Paddle-Lite framework. See also our [guide](https://qengineering.eu/install-paddle-lite-on-raspberry-pi-4.html).
 ```
 # install dependencies
@@ -71,19 +71,84 @@ $ sudo apt-get install cmake wget
 $ git clone --depth=1 https://github.com/PaddlePaddle/Paddle-Lite.git
 $ cd Paddle-Lite
 # build 64-bit Paddle Lite (±1 hour)
-$ ./lite/tools/build_linux.sh --arch=armv8 --with_extra=ON --with_cv=ON --with_static_lib=ON --toolchain=gcc
+$ ./lite/tools/build_linux.sh --arch=armv8 --with_extra=ON --with_cv=ON --with_static_lib=ON
+# Once build, you will have the following directories:
+Paddle-Lite/inference_lite_lib.android.armv8/
+├── cxx                                        C++ prebuild library
+|   ├── include                                C++
+|   |   ├── paddle_api.h
+|   |   ├── paddle_image_preprocess.h
+|   |   ├── paddle_lite_factory_helper.h
+|   |   ├── paddle_place.h
+|   |   ├── paddle_use_kernels.h
+|   |   ├── paddle_use_ops.h
+|   |   └── paddle_use_passes.h
+|   └── lib                                           C++ library
+|       ├── libpaddle_api_light_bundled.a             C++ static library
+|       └── libpaddle_light_api_shared.so             C++ dynamic library
+
 # copy the headers and library to /usr/local/
 $ sudo mkdir -p /usr/local/include/paddle-lite
 $ sudo cp -r build.lite.linux.armv8.gcc/inference_lite_lib.armlinux.armv8/cxx/include/*.* /usr/local/include/paddle-lite
 $ sudo mkdir -p /usr/local/lib/paddle-lite
 $ sudo cp -r build.lite.linux.armv8.gcc/inference_lite_lib.armlinux.armv8/cxx/lib/*.* /usr/local/lib/paddle-lite
 ```
-In addition to the `inference_lite_lib.armlinux.armv8` library, we also need the optimization tool `build.opt`.<br>
+#### Paddle-Lite optimizer
+In addition to the Paddle-Lite library, we also need the optimization tool `opt`.<br>
 The models used by PaddleOCR must match the version of the Paddle-Lite framework. No doubt Paddle-Lite will evolve, and the models provided here will no longer match the newer version.<br><br>
 Before you can compile the optimizer, please check [pull requist #10164](https://github.com/PaddlePaddle/Paddle-Lite/pull/10164).<br>
 The `Paddle-Lite/lite/tools/build_linux.sh` need to be adapted for the aarch64 OS.<br><br>
 ![output image](https://qengineering.eu/github/Paddle_issue_10102.png)<br><br>
 Perhaps, in the near future, the pull request was granted. Until that moment, please alter the `Paddle-Lite/lite/tools/build_linux.sh` file according to the suggestions above.<br>
+With the `build_linux.sh` script up to date, you can buid the optimizer with the following commands.
+```
+$ cd Paddle-Lite
+$ ./lite/tools/build_linux.sh --arch=armv8 --with_extra=ON --with_cv=ON build_optimize_tool
+# Once build, you will find the tool here: Paddle-Lite/build.opt/lite/api/opt
+```
+Introduction to paddle_lite_opt parameters:
+
+|Options|Description|
+|---|---|
+|--model_dir|The path of the PaddlePaddle model to be optimized (non-combined form)|
+|--model_file|The network structure file path of the PaddlePaddle model (combined form) to be optimized|
+|--param_file|The weight file path of the PaddlePaddle model (combined form) to be optimized|
+|--optimize_out_type|Output model type, currently supports two types: protobuf and naive_buffer, among which naive_buffer is a more lightweight serialization/deserialization implementation. If you need to perform model prediction on the mobile side, please set this option to naive_buffer. The default is protobuf|
+|--optimize_out|The output path of the optimized model|
+|--valid_targets|The executable backend of the model, the default is arm. Currently it supports x86, arm, opencl, npu, xpu, multiple backends can be specified at the same time (separated by spaces), and Model Optimize Tool will automatically select the best method. If you need to support Huawei NPU (DaVinci architecture NPU equipped with Kirin 810/990 Soc), it should be set to npu, arm|
+|--record_tailoring_info|When using the function of cutting library files according to the model, set this option to true to record the kernel and OP information contained in the optimized model. The default is false|
+
+#### PaddleOCR models
+The next step is getting the deep learning models PaddleOCR will be using.<br>
+Mostly you use three models: one for detecting the text, one for the orientation of the text and one for character recognition.<br>
+
+```
+$ cd Paddle-Lite/build.opt/lite/api
+
+# Download the Chinese and English inference model of PP-OCRv3
+$ wget  https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_det_slim_infer.tar
+$ wget  https://paddleocr.bj.bcebos.com/PP-OCRv3/chinese/ch_PP-OCRv3_rec_slim_infer.tar
+$ wget  https://paddleocr.bj.bcebos.com/dygraph_v2.0/slim/ch_ppocr_mobile_v2.0_cls_slim_infer.tar
+
+#unzip the models
+$ tar xf  ch_PP-OCRv3_det_slim_infer.tar
+$ tar xf  ch_PP-OCRv2_rec_slim_quant_infer.tar
+$ tar xf  ch_ppocr_mobile_v2.0_cls_slim_infer.tar
+
+# Convert detection model
+./opt --model_file=./ch_PP-OCRv3_det_slim_infer/inference.pdmodel  --param_file=./ch_PP-OCRv3_det_slim_infer/inference.pdiparams  --optimize_out=./ch_PP-OCRv3_det_slim_opt --valid_targets=arm  --optimize_out_type=naive_buffer
+# Convert recognition model
+./opt --model_file=./ch_PP-OCRv3_rec_slim_infer/inference.pdmodel  --param_file=./ch_PP-OCRv3_rec_slim_infer/inference.pdiparams  --optimize_out=./ch_PP-OCRv3_rec_slim_opt --valid_targets=arm  --optimize_out_type=naive_buffer
+# Convert angle classifier model
+./opt --model_file=./ch_ppocr_mobile_v2.0_cls_slim_infer/inference.pdmodel  --param_file=./ch_ppocr_mobile_v2.0_cls_slim_infer/inference.pdiparams  --optimize_out=./ch_ppocr_mobile_v2.0_cls_slim_opt --valid_targets=arm  --optimize_out_type=naive_buffer
+```
+![output image](https://qengineering.eu/github/PaddleOCRoptimizer.png)<br>
+The PaddleOCR engine needs the `*.nd` files later on.
+#### PaddleOCR
+
+```
+$git clone --depth=1 https://github.com/PaddlePaddle/PaddleOCR.git
+```
 
 ------------
 
