@@ -7,7 +7,7 @@ PaddleOCR is a text engine. It can detect text in a scene, determine the orienta
 To do so, it needs a deep learning framework, like PaddlePaddle or Paddle-Lite.<br>
 This application uses Paddle-Lite because, as the name already suggests, it is a lightweight version of PaddlePaddle, it can deploy small quantized models (INT8), and its architecture is well suited for the ARMv8 processors found on a Raspberry Pi.<br>
 Once all the software is installed, it can run on a bare Raspberry Pi without needing cloud services or any (expensive) license.<br><br>
-Frame rate (RPi 4 @ 1925 MHz - 64 bits Bullseye OS):<br>
+INference time (RPi 4 @ 1925 MHz - 64 bits Bullseye OS):<br>
 Detect text: 366 mSec.<br>
 Recognize text: 134 mSec per line.<br><br>
 Special made for a bare Raspberry Pi 4, see [Q-engineering deep learning examples](https://qengineering.eu/deep-learning-examples-on-raspberry-32-64-os.html)
