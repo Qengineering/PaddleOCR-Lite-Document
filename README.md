@@ -83,7 +83,7 @@ The models used by PaddleOCR must match the version of the Paddle-Lite framework
 Before you can compile the optimizer, please check [pull requist #10164](https://github.com/PaddlePaddle/Paddle-Lite/pull/10164).<br>
 The `Paddle-Lite/lite/tools/build_linux.sh` need to be adapted for the aarch64 OS.<br><br>
 ![output image](https://qengineering.eu/github/Paddle_issue_10102.png)<br><br>
-Perhaps, in the near future, the pull request was granted. Until that moment, please alter the according to the suggestions above.<br>
+Perhaps, in the near future, the pull request was granted. Until that moment, please alter the `Paddle-Lite/lite/tools/build_linux.sh` file according to the suggestions above.<br>
 
 ------------
 
