@@ -168,9 +168,10 @@ Building the application will take a **very** long time,  more than 4 minutes. D
 
 ## Running the app.
 Once successfully built you will find the executable `./ocr_db_crnn` in the `bin/Release` folder.
-You have a long parameter list:
+The parameter list:
 ```
-./ocr_db_crnn Mode Detection model file Orientation classifier model file Recognition model file  Hardware  Precision Threads Batchsize  Test image path Dictionary  ```
+./ocr_db_crnn Mode Detection model file Orientation classifier model file Recognition model file  Hardware  Precision Threads Batchsize  Test image path Dictionary  
+```
 Some examples. To run the app with the given passport:
 ```
 ./ocr_db_crnn system ../../models/ch_PP-OCRv3_det_slim_opt.nb  ../../models/ch_PP-OCRv3_rec_slim_opt.nb  ../../models/ch_ppocr_mobile_v2.0_cls_slim_opt.nb  arm8 INT8 4 1  ../../WillekePass.jpg  ../../models/config.txt  ../../models/ppocr_keys_v1.txt  True
@@ -184,6 +185,32 @@ Only using recognition model
 ./ocr_db_crnn  rec ../../models/ch_PP-OCRv3_rec_slim_opt.nb arm8 INT8 4 1 ../../word_1.jpg ../../models/ppocr_keys_v1.txt ../../models/config.txt
 ```
 
+------------
+
+## Notes.
+1. `ppocr_keys_v1.txt` is a Chinese dictionary file. If the nb model is used for English recognition or other language recognition, dictionary file should be replaced with a dictionary of the corresponding language. PaddleOCR provides a variety of dictionaries under ppocr/utils/, including:
+```
+dict/french_dict.txt     # french
+dict/german_dict.txt     # german
+ic15_dict.txt            # english
+dict/japan_dict.txt      # japan
+dict/korean_dict.txt     # korean
+ppocr_keys_v1.txt        # chinese
+```
+
+2.  `config.txt` of the detector and classifier, as shown below:
+```
+max_side_len  960          #  Limit the maximum image height and width to 960
+det_db_thresh  0.3         # Used to filter the binarized image of DB prediction, setting 0.-0.3 has no obvious effect on the result
+det_db_box_thresh  0.5     # DDB post-processing filter box threshold, if there is a missing box detected, it can be reduced as appropriate
+det_db_unclip_ratio  1.6   # Indicates the compactness of the text box, the smaller the value, the closer the text box to the text
+use_direction_classify  0  # Whether to use the direction classifier, 0 means not to use, 1 means to use
+rec_image_height  48       # The height of the input image of the recognition model, the PP-OCRv3 model needs to be set to 48, and the PP-OCRv2 model needs to be set to 32
+```
+Please note the importance of the **rec_image_height** parameter.<br> 
+When using the PaddleOCRv2 models, the height must be 32, otherwise the recognition will be very bad.<br>
+The same applies for the PaddleOCRv3 models when running with the wrong height.<br>
+So, OCRv2 = 32 | OCRv3 = 48
 
 [![paypal](https://qengineering.eu/images/TipJarSmall4.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CPZTM5BB3FCYL) 
 
