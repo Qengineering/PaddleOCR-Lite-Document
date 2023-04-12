@@ -35,19 +35,19 @@
 			<Add option="-pthread" />
 			<Add directory="/usr/local/include/opencv4" />
 			<Add directory="/usr/local/include/paddle-lite" />
-			<Add directory="/usr/local/include/polyclipping" />
 			<Add directory="include" />
 		</Compiler>
 		<Linker>
 			<Add option="`pkg-config --libs opencv4`" />
 			<Add option="-pthread" />
 			<Add option="-fopenmp" />
-			<Add option="-lpolyclipping" />
 			<Add library="/usr/local/lib/paddle-lite/libpaddle_api_light_bundled.a" />
 		</Linker>
+		<Unit filename="include/clipper.h" />
 		<Unit filename="include/cls_process.h" />
 		<Unit filename="include/crnn_process.h" />
 		<Unit filename="include/db_post_process.h" />
+		<Unit filename="src/clipper.cpp" />
 		<Unit filename="src/cls_process.cc" />
 		<Unit filename="src/crnn_process.cc" />
 		<Unit filename="src/db_post_process.cc" />
