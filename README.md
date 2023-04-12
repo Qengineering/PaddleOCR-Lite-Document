@@ -119,16 +119,71 @@ $ tar xf  ch_ppocr_mobile_v2.0_cls_slim_infer.tar
 ![output image](https://qengineering.eu/github/PaddleOCRoptimizer.png)<br>
 The PaddleOCR engine needs the `*.nd` files later on.
 #### PaddleOCR
+The last action is to download the PaddleOCR software. PaddleOCR is basically a large package of algorithms written in various computer languages, such as C++ and Python. It is not a deep learning framework like PaddlePaddle or PyTorch.
+```
+$ git clone --depth=1 https://github.com/PaddlePaddle/PaddleOCR.git
+```
+![image](https://user-images.githubusercontent.com/44409029/231420269-3ef55dd6-4a2e-4ef0-bab6-6d75d72de767.png)
 
+
+------------
+
+## Installing the app.
+With all the tools in place, it is time to build the application.
 ```
-$git clone --depth=1 https://github.com/PaddlePaddle/PaddleOCR.git
+$ mkdir MyDir
+$ cd MyDir
+$ git clone https://github.com/Qengineering/PaddleOCR-Lite-Document.git
 ```
+Your MyDir folder must now look like this:
+```
+.
+├── include                       (copy of PaddleOCR/deploy/lite/)
+│   ├── clipper.h                   
+│   ├── cls_process.h
+│   ├── crnn_process.h
+│   └── db_post_process.h
+├── src                           (copy of PaddleOCR/deploy/lite/)
+│   ├── clipper.cpp
+│   ├── cls_process.cc
+│   ├── crnn_process.cc
+│   ├── db_post_process.cc
+│   └── ocr_db_crnn.cc
+├── models                        (found in Paddle-Lite/build.opt/lite/api)
+│   ├── ch_ppocr_mobile_v2.0_cls_slim_opt.nb
+│   ├── ch_PP-OCRv3_det_slim_opt.nb
+│   ├── ch_PP-OCRv3_rec_slim_opt.nb
+│   ├── config.txt
+│   └── ppocr_keys_v1.txt
+├── PaddleOCR-Lite-Doc.cbp
+└── WillekePass.jpg
+```
+As you can see, many files are just copies of the original ones found in the Paddle-Lite example.<br>
+The models are the ones you just generated with the optimizer.<br>
+As said before, your models must match the Paddle-Lite version. Meaning the supplied models here will have only a short lifespan, as Paddle-Lite will evolve further.<br><br>
+Load the `PaddleOCR-Lite-Doc.cbp` project file in Code::Blocks and build the app.<br>
+Building the application will take a **very** long time,  more than 4 minutes. Don't despair; just be patient.<br>
 
 ------------
 
 ## Running the app.
+Once successfully built you will find the executable `./ocr_db_crnn` in the `bin/Release` folder.
+You have a long parameter list:
+```
+./ocr_db_crnn Mode Detection model file Orientation classifier model file Recognition model file  Hardware  Precision Threads Batchsize  Test image path Dictionary  ```
+Some examples. To run the app with the given passport:
+```
+./ocr_db_crnn system ../../models/ch_PP-OCRv3_det_slim_opt.nb  ../../models/ch_PP-OCRv3_rec_slim_opt.nb  ../../models/ch_ppocr_mobile_v2.0_cls_slim_opt.nb  arm8 INT8 4 1  ../../WillekePass.jpg  ../../models/config.txt  ../../models/ppocr_keys_v1.txt  True
+```
+Only using detection model
+```
+./ocr_db_crnn  det ../../models/ch_PP-OCRv3_det_slim_opt.nb arm8 INT8 4 1 ../../11.jpg  ../../models/config.txt
+```
+Only using recognition model
+```
+./ocr_db_crnn  rec ../../models/ch_PP-OCRv3_rec_slim_opt.nb arm8 INT8 4 1 ../../word_1.jpg ../../models/ppocr_keys_v1.txt ../../models/config.txt
+```
 
-------------
 
 [![paypal](https://qengineering.eu/images/TipJarSmall4.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CPZTM5BB3FCYL) 
 
