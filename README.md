@@ -20,7 +20,6 @@ To run the application, you have to:
 - PaddleOCR installed.
 - Paddle-Lite optimizer. [Install Paddle-Lite](https://qengineering.eu/install-paddle-lite-on-raspberry-pi-4.html) <br/>
 - Paddle-Lite optimizer. [Install Paddle-Lite](https://qengineering.eu/install-paddle-lite-on-raspberry-pi-4.html) <br/>
-- Clipper installed.
 - OpenCV 64 bit installed. [Install OpenCV 4.5](https://qengineering.eu/install-opencv-4.5-on-raspberry-64-os.html) <br/>
 - Code::Blocks installed. (```$ sudo apt-get install codeblocks```)
 
@@ -36,31 +35,6 @@ For compilation, you can choose between CMake or Code::Blocks.
 We find Code::Blocks more comfortable to work with than CMake because of its IDE, which allows quick changes.
 ```
 $ sudo apt-get install codeblocks
-```
-#### Clipper
-PaddleOCR uses Clipper, a library for clipping and shifting polygons. You can see it in action in the photo above. Clipper2 is currently the latest version. However, PaddleOCR uses the first version, which fortunately is still available from [SourceForge](https://sourceforge.net/projects/polyclipping/).
-```
-Download clipper and unzip in a folder named <clipper>
-.
-├── clipper
-│   ├── C#
-│   ├── cpp
-│   ├── Delphi
-│   ├── Documentation
-│   ├── License.txt
-│   ├── README
-│   └── Third Party
-
-$ cd clipper/cpp
-$ mkdir build && cd build
-$ cmake ..
-$ make -j4
-$ sudo cp -r ./libpolyclipping.so.22.0.0 /usr/lib
-$ sudo ln -s /usr/lib/libpolyclipping.so.22.0.0 /usr/lib/libpolyclipping.so.22
-$ sudo ln -s /usr/lib/libpolyclipping.so /usr/lib/libpolyclipping.so.22
-$ cd ..
-$ sudo mkdir /usr/local/include/polyclipping
-$ sudo cp -r ./clipper.hpp /usr/local/include/polyclipping
 ```
 #### Paddle-Lite framework
 With Clipper up and running, it's now time to install the Paddle-Lite framework. See also our [guide](https://qengineering.eu/install-paddle-lite-on-raspberry-pi-4.html).
