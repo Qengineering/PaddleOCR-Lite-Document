@@ -187,6 +187,64 @@ Only using recognition model
 
 ------------
 
+## CMake.
+Instead of Code::Blocks, you can also use CMake to build the application.<br>
+Please follow the next instructions. Assuming your in the 'main' directory.<br>
+```
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make  -j4
+
+Scanning dependencies of target ocr_db_crnn
+[ 16%] Building CXX object CMakeFiles/ocr_db_crnn.dir/src/ocr_db_crnn.cc.o
+[ 33%] Building CXX object CMakeFiles/ocr_db_crnn.dir/src/db_post_process.cc.o
+[ 50%] Linking CXX executable ../ocr_db_crnn
+[100%] Built target ocr_db_crnn
+
+$ cd ..
+$ tree -L 2
+.
+├── build
+│   ├── CMakeCache.txt
+│   ├── CMakeFiles
+│   ├── cmake_install.cmake
+│   └── Makefile
+├── CMakeLists.txt
+├── include
+│   ├── clipper.h
+│   ├── cls_process.h
+│   ├── crnn_process.h
+│   └── db_post_process.h
+├── models
+│   ├── ch_ppocr_mobile_v2.0_cls_slim_opt.nb
+│   ├── ch_PP-OCRv3_det_slim_opt.nb
+│   ├── ch_PP-OCRv3_rec_slim_opt.nb
+│   ├── config.txt
+│   └── ppocr_keys_v1.txt
+├── ocr_db_crnn
+├── PaddleOCR-Lite-Doc.cbp
+├── PaddleOCR-Lite-Doc.depend
+├── PaddleOCR-Lite-Doc.layout
+├── src
+│   ├── clipper.cpp
+│   ├── cls_process.cc
+│   ├── crnn_process.cc
+│   ├── db_post_process.cc
+│   └── ocr_db_crnn.cc
+└── WillekePass.jpg
+```
+Run. Note, you are now in the 'main' directory, not in the 'bin/Release' created by Code::Blocks.
+```
+$ ./ocr_db_crnn system ./models/ch_PP-OCRv3_det_slim_opt.nb  ./models/ch_PP-OCRv3_rec_slim_opt.nb  ./models/ch_ppocr_mobile_v2.0_cls_slim_opt.nb  arm8 INT8 4 1  ./WillekePass.jpg  ./models/config.txt  ./models/ppocr_keys_v1.txt  True
+```
+Once ocr_db_crnn works, you may remove the build directory, since we don't need it any more.
+```
+$ sudo rm -rf build
+```
+
+------------
+
 ## Notes.
 1. `ppocr_keys_v1.txt` is a Chinese dictionary file. If the nb model is used for English recognition or other language recognition, dictionary file should be replaced with a dictionary of the corresponding language. PaddleOCR provides a variety of dictionaries under ppocr/utils/, including:
 ```
