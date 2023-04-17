@@ -106,7 +106,7 @@ $ wget  https://paddleocr.bj.bcebos.com/dygraph_v2.0/slim/ch_ppocr_mobile_v2.0_c
 
 #unzip the models
 $ tar xf  ch_PP-OCRv3_det_slim_infer.tar
-$ tar xf  ch_PP-OCRv2_rec_slim_quant_infer.tar
+$ tar xf  ch_PP-OCRv3_rec_slim_infer.tar
 $ tar xf  ch_ppocr_mobile_v2.0_cls_slim_infer.tar
 
 # Convert detection model
