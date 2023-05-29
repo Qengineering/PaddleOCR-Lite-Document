@@ -37,7 +37,7 @@ We find Code::Blocks more comfortable to work with than CMake because of its IDE
 $ sudo apt-get install codeblocks
 ```
 #### Paddle-Lite framework
-With Clipper up and running, it's now time to install the Paddle-Lite framework. See also our [guide](https://qengineering.eu/install-paddle-lite-on-raspberry-pi-4.html).
+It's time to install the Paddle-Lite framework. See also our [guide](https://qengineering.eu/install-paddle-lite-on-raspberry-pi-4.html).
 ```
 # install dependencies
 $ sudo apt-get install cmake wget
