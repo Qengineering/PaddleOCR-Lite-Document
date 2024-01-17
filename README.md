@@ -7,9 +7,12 @@ PaddleOCR is a text engine. It can detect text in a scene, determine the orienta
 To do so, it needs a deep learning framework, like PaddlePaddle or Paddle-Lite.<br>
 This application uses Paddle-Lite because, as the name already suggests, it is a lightweight version of PaddlePaddle, it can deploy small quantized models (INT8), and its architecture is well suited for the ARMv8 processors found on a Raspberry Pi.<br>
 Once all the software is installed, it can run on a bare Raspberry Pi without needing cloud services or any (expensive) license.<br><br>
-INference time (RPi 4 @ 1925 MHz - 64 bits Bullseye OS):<br>
+Inference time (RPi 4 @ 1925 MHz - 64 bits Bullseye OS):<br>
 Detect text: 366 mSec.<br>
 Recognize text: 134 mSec per line.<br><br>
+Inference time (**RPi 5** @ 2450 MHz - 64 bits Bookworm OS):<br>
+Detect text: 183 mSec.<br>
+Recognize text: 67 mSec per line.<br><br>
 Special made for a bare Raspberry Pi 4, see [Q-engineering deep learning examples](https://qengineering.eu/deep-learning-examples-on-raspberry-32-64-os.html)
 
 ------------
@@ -19,7 +22,7 @@ To run the application, you have to:
 - A raspberry Pi 4 with a 32 or 64-bit operating system. It can be the Raspberry 64-bit OS, or Ubuntu 18.04 / 20.04. [Install 64-bit OS](https://qengineering.eu/install-raspberry-64-os.html) <br/>
 - PaddleOCR installed.
 - Paddle-Lite optimizer. [Install Paddle-Lite](https://qengineering.eu/install-paddle-lite-on-raspberry-pi-4.html) <br/>
-- OpenCV 64 bit installed. [Install OpenCV 4.5](https://qengineering.eu/install-opencv-4.5-on-raspberry-64-os.html) <br/>
+- OpenCV 64-bit installed. [Install OpenCV 4.5](https://qengineering.eu/install-opencv-4.5-on-raspberry-64-os.html) <br/>
 - Code::Blocks installed. (```$ sudo apt-get install codeblocks```)
 
 ------------
@@ -45,7 +48,7 @@ $ git clone --depth=1 https://github.com/PaddlePaddle/Paddle-Lite.git
 $ cd Paddle-Lite
 # build 64-bit Paddle Lite (±1 hour)
 $ ./lite/tools/build_linux.sh --arch=armv8 --with_extra=ON --with_cv=ON --with_static_lib=ON
-# Once build, you will have the following directories:
+# Once built, you will have the following directories:
 Paddle-Lite/inference_lite_lib.android.armv8/
 ├── cxx                                        C++ prebuild library
 |   ├── include                                C++
