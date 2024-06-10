@@ -72,6 +72,7 @@ $ sudo cp -r build.lite.linux.armv8.gcc/inference_lite_lib.armlinux.armv8/cxx/li
 #### Paddle-Lite optimizer
 In addition to the Paddle-Lite library, we also need the optimization tool `opt`.<br>
 The models used by PaddleOCR must match the version of the Paddle-Lite framework. No doubt Paddle-Lite will evolve, and the models provided here will no longer match the newer version.<br><br>
+**👉 Please check issue https://github.com/Qengineering/PaddleOCR-Lite-Document/issues/1 for more info and recent solutions! 👈** <br><br>
 Before you can compile the optimizer, please check [pull requist #10164](https://github.com/PaddlePaddle/Paddle-Lite/pull/10164).<br>
 The `Paddle-Lite/lite/tools/build_linux.sh` need to be adapted for the aarch64 OS.<br><br>
 ![output image](https://qengineering.eu/github/Paddle_issue_10102.png)<br><br>
