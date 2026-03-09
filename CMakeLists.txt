@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
-project(ocr_db_crnn)
+project(ocr)
 
 macro(use_cxx11)
   if (CMAKE_VERSION VERSION_LESS "3.1")
@@ -14,16 +14,16 @@ endmacro(use_cxx11)
 
 find_package(OpenCV REQUIRED)                              
 
-set(SOURCES src/clipper.cpp src/cls_process.cc src/crnn_process.cc src/db_post_process.cc src/ocr_db_crnn.cc)
+set(SOURCES src/clipper.cpp src/cls_process.cc src/crnn_process.cc src/db_post_process.cc src/main.cpp)
 
-set(EXTRA_LIBS ${OpenCV_LIBS} /usr/local/lib/paddle-lite/libpaddle_api_light_bundled.a)
+set(EXTRA_LIBS ${OpenCV_LIBS} /usr/local/lib/ncnn/libncnn.a)
 
 set(EXECUTABLE_OUTPUT_PATH "../")
 
-include_directories(include ${OpenCV_INCLUDE_DIRS} /usr/local/include/paddle-lite)
+include_directories(include ${OpenCV_INCLUDE_DIRS} /usr/local/include/ncnn)
 
 add_link_options(-fopenmp -s -ldl -pthread -lgomp -rdynamic)
 
-add_executable(ocr_db_crnn ${SOURCES})
+add_executable(ocr ${SOURCES})
 
-target_link_libraries(ocr_db_crnn ${EXTRA_LIBS})
+target_link_libraries(ocr ${EXTRA_LIBS})

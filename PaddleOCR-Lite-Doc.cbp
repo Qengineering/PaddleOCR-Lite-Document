@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/ocr_db_crnn" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/ocr" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,10 +16,11 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/ocr_db_crnn" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/ocr" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="det ./models/PP_OCRv5_mobile_det arm8 INT8 1 ./11.jpg ./models/config.txt" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
@@ -34,14 +35,14 @@
 			<Add option="-fexceptions" />
 			<Add option="-pthread" />
 			<Add directory="/usr/local/include/opencv4" />
-			<Add directory="/usr/local/include/paddle-lite" />
+			<Add directory="/usr/local/include/ncnn" />
 			<Add directory="include" />
 		</Compiler>
 		<Linker>
 			<Add option="`pkg-config --libs opencv4`" />
 			<Add option="-pthread" />
 			<Add option="-fopenmp" />
-			<Add library="/usr/local/lib/paddle-lite/libpaddle_api_light_bundled.a" />
+			<Add library="/usr/local/lib/ncnn/libncnn.a" />
 		</Linker>
 		<Unit filename="include/clipper.h" />
 		<Unit filename="include/cls_process.h" />
@@ -51,7 +52,7 @@
 		<Unit filename="src/cls_process.cc" />
 		<Unit filename="src/crnn_process.cc" />
 		<Unit filename="src/db_post_process.cc" />
-		<Unit filename="src/ocr_db_crnn.cc" />
+		<Unit filename="src/main.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
